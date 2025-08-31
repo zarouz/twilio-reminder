@@ -1,7 +1,10 @@
 name: Twilio Call Scheduler
 
 on:
-  workflow_dispatch: # allows manual trigger
+  workflow_dispatch: # allows manual trigger from Actions tab
+  push: # run when pushing to main branch
+    branches:
+      - main
   schedule:
     - cron: "55 15 * * 2" # Every Tuesday 9:25 PM IST (15:55 UTC)
 
