@@ -1,3 +1,2 @@
 twilio
 python-dotenv
-__pycache__/
