@@ -2,11 +2,11 @@ name: Twilio Call Scheduler
 
 on:
   workflow_dispatch: # allows manual trigger from Actions tab
-  push: # run when pushing to main branch
+  push:
     branches:
       - main
   schedule:
-    - cron: "55 15 * * 2" # Every Tuesday 9:25 PM IST (15:55 UTC)
+    - cron: "55 15 * * 2" # Every Tuesday 3:55 PM UTC (9:25 PM IST)
 
 jobs:
   make-call:
@@ -25,11 +25,11 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run script
+      - name: Run script to make a call
         env:
           TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
           TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
           TWILIO_PHONE_NUMBER: ${{ secrets.TWILIO_PHONE_NUMBER }}
           MY_PHONE_NUMBER: ${{ secrets.MY_PHONE_NUMBER }}
-          TWIML_URL: ${{ secrets.TWIML_URL }}
+          TWIML_BIN_URL: ${{ secrets.TWIML_BIN_URL }}
         run: python call.py
