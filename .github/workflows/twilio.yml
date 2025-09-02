@@ -42,4 +42,5 @@ jobs:
           TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
           TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
           TWILIO_PHONE_NUMBER: ${{ secrets.TWILIO_PHONE_NUMBER }}
-          TO_NUMBER: ${{ secrets.TO_NUMBER }}
+          # Use the correct secret name for your phone number
+          MY_PHONE_NUMBER: ${{ secrets.MY_PHONE_NUMBER }}

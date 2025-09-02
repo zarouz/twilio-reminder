@@ -2,20 +2,48 @@ import os
 from twilio.rest import Client
 
 print("Starting the call script...")
+print("--- Checking for environment variables ---")
 
 # Get credentials from environment variables set by GitHub Actions
 account_sid = os.getenv("TWILIO_ACCOUNT_SID")
 auth_token = os.getenv("TWILIO_AUTH_TOKEN")
-from_number = os.getenv("TWILIO_PHONE_NUMBER")  # Your Twilio number
-to_number = os.getenv("TO_NUMBER")              # The number to call
+from_number = os.getenv("TWILIO_PHONE_NUMBER")
+to_number = os.getenv("MY_PHONE_NUMBER") # Correctly uses MY_PHONE_NUMBER
 
-# --- Validation Step ---
-# Check if all required environment variables are present.
-# This helps in debugging if secrets are not set correctly.
-if not all([account_sid, auth_token, from_number, to_number]):
-    print("Error: Missing one or more required environment variables.")
-    print("Please check your repository's Actions secrets.")
-    exit(1) # Exit with an error code
+# --- Enhanced Validation Step ---
+# Check each variable and report its status.
+secrets_are_valid = True
+if account_sid:
+    print("✅ TWILIO_ACCOUNT_SID found.")
+else:
+    print("❌ TWILIO_ACCOUNT_SID is missing.")
+    secrets_are_valid = False
+
+if auth_token:
+    print("✅ TWILIO_AUTH_TOKEN found.")
+else:
+    print("❌ TWILIO_AUTH_TOKEN is missing.")
+    secrets_are_valid = False
+
+if from_number:
+    print("✅ TWILIO_PHONE_NUMBER found.")
+else:
+    print("❌ TWILIO_PHONE_NUMBER is missing.")
+    secrets_are_valid = False
+
+if to_number:
+    print("✅ MY_PHONE_NUMBER found.")
+else:
+    print("❌ MY_PHONE_NUMBER is missing.")
+    secrets_are_valid = False
+
+# If any secret is missing, print a final error and exit.
+if not secrets_are_valid:
+    print("\nError: One or more required secrets are missing.")
+    print("Please go to your repository's Settings > Secrets and variables > Actions to add them.")
+    exit(1)
+
+print("--- All secrets found. Proceeding to make call. ---\n")
 
 try:
     # Initialize the Twilio client
@@ -34,4 +62,4 @@ try:
 
 except Exception as e:
     print(f"An error occurred while making the call: {e}")
-    exit(1) # Exit with an error code
+    exit(1)
