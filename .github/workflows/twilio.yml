@@ -1,25 +1,43 @@
+# This workflow makes a phone call using Twilio every 2 minutes.
+# It can also be triggered manually from the GitHub Actions tab.
+
 name: Twilio Call Scheduler
 
 on:
+  # Trigger the workflow on a schedule.
+  # "*/2 * * * *" runs at minute 2, 4, 6, etc., of every hour.
+  # Note: Scheduled workflows may be delayed during periods of high demand.
   schedule:
-    - cron: "*/2 * * * *" # Every even minute (UTC)
-  workflow_dispatch: # allow manual trigger
+    - cron: "*/2 * * * *"
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   make-call:
+    # Use the latest version of Ubuntu
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # Step 1: Check out your repository code
+      - name: Check out repository
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      # Step 2: Set up the Python environment
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.x"
+          python-version: "3.10" # Using a specific version is good practice
 
-      - run: |
+      # Step 3: Install dependencies (just Twilio is needed)
+      - name: Install dependencies
+        run: |
           python -m pip install --upgrade pip
-          pip install twilio python-dotenv
+          pip install twilio
 
-      - run: python call.py
+      # Step 4: Run the Python script to make the call
+      # The secrets are securely passed as environment variables
+      - name: Run Python script to make call
+        run: python call.py
         env:
           TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID }}
           TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN }}
