@@ -1,0 +1,24 @@
+name: Debug Workflow
+
+on:
+  workflow_dispatch: # This workflow only runs when you manually trigger it
+
+jobs:
+  debug-info:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout the code
+        uses: actions/checkout@v4
+        with:
+          # Fetches all history for all branches
+          fetch-depth: 0
+
+      - name: List all branches
+        run: |
+          echo "--- Listing all available branches ---"
+          git branch -a
+
+      - name: Show recent commit log
+        run: |
+          echo "--- Showing the 5 most recent commits on the current branch ---"
+          git log -n 5 --oneline
