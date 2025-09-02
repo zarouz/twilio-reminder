@@ -8,7 +8,7 @@ on:
   # "*/2 * * * *" runs at minute 2, 4, 6, etc., of every hour.
   # Note: Scheduled workflows may be delayed during periods of high demand.
   schedule:
-    - cron: "*/2 * * * *"
+    - cron: "30 15 * * 2" #every tuesday at 9 pm
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
