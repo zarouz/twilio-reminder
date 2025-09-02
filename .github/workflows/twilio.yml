@@ -1,14 +1,18 @@
-# This workflow makes a phone call using Twilio every 2 minutes.
+# This workflow makes a phone call using Twilio on a schedule and on pushes to main.
 # It can also be triggered manually from the GitHub Actions tab.
 
 name: Twilio Call Scheduler
 
 on:
+  # Trigger the workflow when code is pushed to the main branch
+  push:
+    branches:
+      - main
+
   # Trigger the workflow on a schedule.
-  # "*/2 * * * *" runs at minute 2, 4, 6, etc., of every hour.
-  # Note: Scheduled workflows may be delayed during periods of high demand.
+  # This schedule is for every Tuesday at 9:00 PM IST (15:30 UTC).
   schedule:
-    - cron: "30 15 * * 2" #every tuesday at 9 pm
+    - cron: "30 15 * * 2"
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -28,7 +32,7 @@ jobs:
         with:
           python-version: "3.10" # Using a specific version is good practice
 
-      # Step 3: Install dependencies (just Twilio is needed)
+      # Step 3: Install dependencies
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
